@@ -1,4 +1,6 @@
-esp_err_t pinMode(uint8_t pin, uint8_t mode);
+#pragma once
+
+esp_err_t customPinMode(uint8_t pin, uint8_t mode);
 
 #define LOW 0x0
 #define HIGH 0x1

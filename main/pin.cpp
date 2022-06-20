@@ -2,7 +2,7 @@
 #include "pin.h"
 #include "hal/gpio_hal.h"
 
-esp_err_t pinMode(uint8_t pin, uint8_t mode) {
+esp_err_t customPinMode(uint8_t pin, uint8_t mode) {
   if (!GPIO_IS_VALID_GPIO(pin)) {
     return ESP_ERR_INVALID_ARG;
   }

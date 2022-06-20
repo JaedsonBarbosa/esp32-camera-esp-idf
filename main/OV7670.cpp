@@ -10,7 +10,7 @@ OV7670::OV7670(Mode m, const int SIOD, const int SIOC, const int VSYNC, const in
 {
   ClockEnable(XCLK, 20000000); //base is 80MHz
   
-  esp_err_t result=pinMode(VSYNC, INPUT);//configure GPIO with the given settings
+  esp_err_t result=customPinMode(VSYNC, INPUT);//configure GPIO with the given settings
   if(result!=ESP_OK){
     ESP_LOGE(TAG, "Error configuring VSYNC.");
   } else {

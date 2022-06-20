@@ -8,12 +8,12 @@ class I2C {
   void inline DELAY() { ets_delay_us(1); }
 
   void inline SCLLOW() {
-    pinMode(SCL, OUTPUT);
+    customPinMode(SCL, OUTPUT);
     gpio_set_level((gpio_num_t)SCL, 0);
   }
 
   void inline SCLHIGH() {
-    pinMode(SCL, INPUT_PULLUP);
+    customPinMode(SCL, INPUT_PULLUP);
     gpio_set_level((gpio_num_t)SCL, 1);
   }
 
@@ -27,16 +27,16 @@ class I2C {
   }
 
   void inline SDALOW() {
-    pinMode(SDA, OUTPUT);
+    customPinMode(SDA, OUTPUT);
     gpio_set_level((gpio_num_t)SDA, 0);
   }
 
   void inline SDAHIGH() {
-    pinMode(SDA, OUTPUT);
+    customPinMode(SDA, OUTPUT);
     gpio_set_level((gpio_num_t)SDA, 1);
   }
 
-  void inline SDAPULLUP() { pinMode(SDA, INPUT_PULLUP); }
+  void inline SDAPULLUP() { customPinMode(SDA, INPUT_PULLUP); }
 
   void pushByte(unsigned char b) {
     for (char i = 0; i < 8; i++) {
@@ -86,8 +86,8 @@ public:
   I2C(const int data, const int clock) {
     SDA = data;
     SCL = clock;
-    pinMode(SDA, INPUT_PULLUP);
-    pinMode(SCL, INPUT_PULLUP);
+    customPinMode(SDA, INPUT_PULLUP);
+    customPinMode(SCL, INPUT_PULLUP);
     gpio_set_level((gpio_num_t)SDA, 0);
     gpio_set_level((gpio_num_t)SCL, 0);
   }
