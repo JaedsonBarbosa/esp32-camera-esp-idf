@@ -11,7 +11,8 @@
   "idf.toolsPathWin": "C:\\Users\\jaeds\\.espressif",
   "files.associations": {
     "stdio.h": "c",
-    "*.inc": "cpp"
+    "*.inc": "cpp",
+    "*.ipp": "cpp"
   },
   "idf.flashType": "UART",
   "idf.portWin": "COM6"

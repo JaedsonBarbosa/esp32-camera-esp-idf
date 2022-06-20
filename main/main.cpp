@@ -1,4 +1,5 @@
 #include "OV7670.h"
+#include "pin.h"
 #include <esp_log.h>
 #include <driver/gpio.h>
 #include <esp_task_wdt.h>
@@ -22,21 +23,14 @@
 #define CAM_PIN_PCLK 27
 
 esp_err_t configure_reset_pwdn() {
-  gpio_config_t io_conf;
-  io_conf.intr_type = (gpio_int_type_t)GPIO_PIN_INTR_DISABLE;//disable interrupt
-  io_conf.mode = GPIO_MODE_OUTPUT;//set as output mode
-  io_conf.pin_bit_mask = (1ULL<<CAM_PIN_RESET);//bit mask of the pins that you want to set,e.g.GPIO18
-  io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;//disable pull-down mode
-  io_conf.pull_up_en = GPIO_PULLUP_DISABLE;//disable pull-up mode
-  esp_err_t error=gpio_config(&io_conf);//configure GPIO with the given settings
+  esp_err_t error = pinMode(CAM_PIN_RESET, OUTPUT);
   if(error!=ESP_OK){
-    printf("error configuring reset \n");
+    printf("Error configuring reset \n");
     return ESP_FAIL;
   }
   gpio_set_level((gpio_num_t)CAM_PIN_RESET, 1);
 
-  io_conf.pin_bit_mask = (1ULL<<CAM_PIN_PWDN);
-  error=gpio_config(&io_conf);
+  error = pinMode(CAM_PIN_PWDN, OUTPUT);
   if(error!=ESP_OK){
     printf("error configuring pwdn \n");
     return ESP_FAIL;
@@ -90,8 +84,8 @@ void test_capture() {
 // void app_main(void)
 extern "C" void app_main() {
   esp_task_wdt_init(60, false);
-  esp_err_t error = configure_reset_pwdn();
-  if (error != ESP_OK) {
+  esp_err_t result = configure_reset_pwdn();
+  if (result != ESP_OK) {
     printf("error configuring inputs \n");
     return;
   }

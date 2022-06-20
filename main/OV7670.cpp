@@ -1,6 +1,7 @@
 #include "OV7670.h"
 #include "XClk.h"
 #include "esp_log.h"
+#include "pin.h"
 
 static const char *TAG = "OV7670";
 
@@ -9,15 +10,8 @@ OV7670::OV7670(Mode m, const int SIOD, const int SIOC, const int VSYNC, const in
 {
   ClockEnable(XCLK, 20000000); //base is 80MHz
   
-  gpio_config_t io_conf;
-  io_conf.intr_type = (gpio_int_type_t)GPIO_PIN_INTR_DISABLE;//disable interrupt
-  io_conf.mode = GPIO_MODE_INPUT;//set as inputmode
-  io_conf.pin_bit_mask = (1ULL<<VSYNC);//bit mask of the pins that you want to set,e.g.GPIO15
-  io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;//disable pull-down mode
-  io_conf.pull_up_en = GPIO_PULLUP_DISABLE;//disable pull-up mode
-  esp_err_t error=gpio_config(&io_conf);//configure GPIO with the given settings
-
-  if(error!=ESP_OK){
+  esp_err_t result=pinMode(VSYNC, INPUT);//configure GPIO with the given settings
+  if(result!=ESP_OK){
     ESP_LOGE(TAG, "Error configuring VSYNC.");
   } else {
     ESP_LOGI(TAG, "Waiting for VSYNC...");
